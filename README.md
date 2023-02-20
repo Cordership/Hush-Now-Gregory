@@ -1,7 +1,7 @@
 # Hush-Now-Gregory
-The program is set to run with default settings if run as \__main__.
+The program is set to run with default settings if run as \_\_main\_\_.
 Doing so requires the folder HNGFiles to be in the path.
-Otherwise, import the python file in a different script and run HushNowGregory.search(startAshInput, spaceshipOutput, \**kwargs).
+Otherwise, import the python file in a different script and run HushNowGregory.search(startAshInput, spaceshipOutput, \*\*kwargs).
 Arguments go as follows:
 
 Arguments:
