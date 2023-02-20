@@ -1,8 +1,8 @@
 # Hush-Now-Gregory
-Data type and variable names may differ from how they appear in the paper.\n
-The program is set to run with default settings if run as \_\_main\_\_.
-Doing so requires the folder HNGFiles to be in the path.
-Otherwise, import HushNowGregory in a different script and run HushNowGregory.search(startAshInput, spaceshipOutput, \*\*kwargs).
+Data type and variable names may differ from how they appear in the paper.  
+The program is set to run with default settings if run as \_\_main\_\_.  
+Doing so requires the folder HNGFiles to be in the path.  
+Otherwise, import HushNowGregory in a different script and run HushNowGregory.search(startAshInput, spaceshipOutput, \*\*kwargs).  
 Arguments go as follows:
 ```
 Arguments:
