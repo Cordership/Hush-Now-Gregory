@@ -1,9 +1,9 @@
 # Hush-Now-Gregory
 The program is set to run with default settings if run as \_\_main\_\_.
 Doing so requires the folder HNGFiles to be in the path.
-Otherwise, import the python file in a different script and run HushNowGregory.search(startAshInput, spaceshipOutput, \*\*kwargs).
+Otherwise, import HushNowGregory in a different script and run HushNowGregory.search(startAshInput, spaceshipOutput, \*\*kwargs).
 Arguments go as follows:
-
+```
 Arguments:
     startAshInput:
         File containing RLE describing initial ash that the program will attempt to perturb to produce spaceships/specified stable output
@@ -26,3 +26,4 @@ Keyword Arguments:
         for the given start ash
 Example:
     search("startAshInputRLE.txt","spaceshipOutputRLEs.txt",resultAshInOut=("resultAshInRLEs.txt","resultAshOutRLEs.txt"))
+```
