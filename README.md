@@ -29,5 +29,5 @@ Example:
     search("startAshInputRLE.txt","spaceshipOutputRLEs.txt",resultAshInOut=("resultAshInRLEs.txt","resultAshOutRLEs.txt"))
 ```
 Obsolete terminology in code commentary is as follows:
-&phi
+&phi;
   Instead of requiring you to specify the search depth at the beginning, the python versions iterates one level at a time, asking you if you want to continue each time.
