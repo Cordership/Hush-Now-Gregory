@@ -1092,7 +1092,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 bottom = endBottom
                                 for iParvo in range(len(bottomsSequenceParvos) - 1, i, -1):
                                     tentativeBottom = bottomsSequenceParvos[iParvo].bottom()
-                                    if tentativeBottom < bottom:
+                                    if tentativeBottom > bottom:
                                         bottom = tentativeBottom
                                 bottomsSequence.append(bottom)
                                 if slice != 3:
@@ -1329,7 +1329,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 bottom = endBottom
                                 for iParvo in range(len(bottomsSequenceParvos) - 1, i, -1):
                                     tentativeBottom = bottomsSequenceParvos[iParvo].bottom()
-                                    if tentativeBottom < bottom:
+                                    if tentativeBottom > bottom:
                                         bottom = tentativeBottom
                                 bottomsSequence.append(bottom)
                                 if slice != 3:
