@@ -1084,8 +1084,8 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                             # Track the bottom of the parvoship arrangement for four generations, to be referenced to track the bottom of the arrangement at any given generation
                             bottomsSequenceParvos = copy.deepcopy(testParvos)
                             i = len(bottomsSequenceParvos) - 2
-                            endBottom = bottomsSequenceParvos[-1].y
-                            while i >= 0 and bottomsSequenceParvos[i].y > endBottom - 2:
+                            endBottom = bottomsSequenceParvos[-1].bottom()
+                            while i >= 0 and bottomsSequenceParvos[i].bottom() > endBottom - 2:
                                 i -= 1
                             bottomsSequence = []
                             for slice in range(4):
@@ -1321,8 +1321,8 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                             # Track the bottom of the parvoship arrangement for four generations, to be referenced to track the bottom of the arrangement at any given generation
                             bottomsSequenceParvos = copy.deepcopy(testParvos)
                             i = len(bottomsSequenceParvos) - 2
-                            endBottom = bottomsSequenceParvos[-1].y
-                            while i >= 0 and bottomsSequenceParvos[i].y > endBottom - 2:
+                            endBottom = bottomsSequenceParvos[-1].bottom()
+                            while i >= 0 and bottomsSequenceParvos[i].bottom() > endBottom - 2:
                                 i -= 1
                             bottomsSequence = []
                             for slice in range(4):
