@@ -1205,7 +1205,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                                     break
                                             if verified:
                                                 break
-                                            # Add product ash to ashes newFlotillas
+                                            # Add product ash to ashes, new flotilla to newFlotillas
                                             ashes.append(currentPuff.array)
                                             newFlotillas.append(Flotilla(currentPuff.array, ShadowGrid(copy.deepcopy(currentPuff.array), -iRecord), [], 0, -iRecord, newFlotilla))
                                         verified = True
@@ -1405,7 +1405,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                                 break
                                         if verified:
                                             break
-                                        # Add product ash to ashes newFlotillas
+                                        # Add product ash to ashes, new flotilla to newFlotillas
                                         ashes.append(currentPuff.array)
                                         newFlotillas.append(Flotilla(currentPuff.array, ShadowGrid(copy.deepcopy(currentPuff.array), -iRecord), [], 0, -iRecord, newFlotilla))
                                         verified = True
