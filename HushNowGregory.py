@@ -924,7 +924,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                             start = start[i:]
                             j = -1
                             break
-                        raise SyntaxError("file contains unrecognized symbol", (resultAshInOut[0], line, None, startAshRLE[i]))
+                        raise SyntaxError("file contains unrecognized symbol", (resultAshInOut[0], line, None, start[i]))
                 i += 1
             xMin = -1
             scanning = True
