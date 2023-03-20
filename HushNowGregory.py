@@ -532,7 +532,7 @@ class ShadowGrid:
                         self.postshadow(xCell, yCell, gen)
             gen -= 1
 
-    # Inserts the shadows of each parvoship in parvos into the ShadowGrid
+    # Returns copy of ShadowGrid with the shadows of each parvoship in parvos added
     def parvoShadows(self, parvos):
         out = copy.deepcopy(self)
         for parvo in parvos:
@@ -1024,8 +1024,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
         for flotilla in flotillas:
             # SEARCH SIMULATION:
             searchGrid = PatternGrid(copy.deepcopy(flotilla.startAsh), copy.deepcopy(flotilla.parvos), -2, -2)
-            shadows = copy.deepcopy(flotilla.startShadow).parvoShadows(flotilla.parvos)
-            shadows.parvoShadows(flotilla.parvos)
+            shadows = flotilla.startShadow.parvoShadows(flotilla.parvos)
             # Advance searchGrid to first interaction between puff and the most recently added parvoship
             for gen in range(flotilla.startGen):
                 puff = searchGrid.parvosRemoved()
@@ -1261,8 +1260,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
         for flotilla in unstableFlotillas:
             # SEARCH SIMULATION:
             searchGrid = PatternGrid(copy.deepcopy(flotilla.startAsh), copy.deepcopy(flotilla.parvos), -2, -2)
-            shadows = copy.deepcopy(flotilla.startShadow).parvoShadows(flotilla.parvos)
-            shadows.parvoShadows(flotilla.parvos)
+            shadows = flotilla.startShadow.parvoShadows(flotilla.parvos)
             # Advance searchGrid to first interaction between puff and the most recently added parvoship
             for gen in range(flotilla.startGen):
                 puff = searchGrid.parvosRemoved()
@@ -1329,7 +1327,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 bottom = endBottom
                                 for iParvo in range(len(bottomsSequenceParvos) - 1, i, -1):
                                     tentativeBottom = bottomsSequenceParvos[iParvo].bottom()
-                                    if tentativeBottom > bottom:
+                                    if tentativeBottom < bottom:
                                         bottom = tentativeBottom
                                 bottomsSequence.append(bottom)
                                 if slice != 3:
