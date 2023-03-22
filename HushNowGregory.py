@@ -864,7 +864,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
             if match is None:
                 break
             start = match.group(0)
-            line += match.start() - j - 1
+            line += match.start()
             header = re.match("x=[0-9]+,y=[0-9]+,rule=23/3/3\n", start)
             if header is None:
                 raise SyntaxError("header is not properly formatted", (resultAshInOut[0], line, None, None))
