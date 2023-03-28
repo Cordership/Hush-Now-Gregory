@@ -528,7 +528,7 @@ class PatternGrid:
         dispFrontRight=2*yTop-xRight
         parvosNew=[]
         for parvo in out.parvos:
-            if (dispFrontLeft-2*parvo.y-parvo.x <= (19 if parvo.leftHanded else 12)) and (dispFrontRight-2*parvo.y+parvo.x <= (12 if parvo.leftHanded else 19)):
+            if (dispFrontLeft-2*parvo.y-parvo.x <= (19 if parvo.leftHanded else 12)-parvo.phase%2) and (dispFrontRight-2*parvo.y+parvo.x <= (12 if parvo.leftHanded else 19)-parvo.phase%2):
                 parvosNew.append(parvo)
         out.parvos=parvosNew
         if len(parvosNew)>0 and parvosNew[-1].leftHanded:
