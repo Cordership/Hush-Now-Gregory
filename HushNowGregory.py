@@ -1088,8 +1088,8 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 i -= 1
                             bottomsSequence = []
                             for slice in range(4):
-                                bottom = endBottom
-                                for iParvo in range(len(bottomsSequenceParvos) - 1, i, -1):
+                                bottom = bottomsSequenceParvos[-1].bottom()
+                                for iParvo in range(len(bottomsSequenceParvos) - 2, i, -1):
                                     tentativeBottom = bottomsSequenceParvos[iParvo].bottom()
                                     if tentativeBottom > bottom:
                                         bottom = tentativeBottom
@@ -1324,8 +1324,8 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 i -= 1
                             bottomsSequence = []
                             for slice in range(4):
-                                bottom = endBottom
-                                for iParvo in range(len(bottomsSequenceParvos) - 1, i, -1):
+                                bottom = bottomsSequenceParvos[-1].bottom()
+                                for iParvo in range(len(bottomsSequenceParvos) - 2, i, -1):
                                     tentativeBottom = bottomsSequenceParvos[iParvo].bottom()
                                     if tentativeBottom < bottom:
                                         bottom = tentativeBottom

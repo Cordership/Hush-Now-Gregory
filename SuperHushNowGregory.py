@@ -186,9 +186,8 @@ parvoPostspacingCoords = [
     ]
 ]
 
-# Standardize chirality of ash pattern
-def standardizeAsh(pattern):
-    out=copy.deepcopy(pattern)
+# Check if chirality of ash is nonstandard
+def nonStdChi(pattern):
     half=pattern.shape[0]//2
     left=pattern[:half]
     right=np.flipud(pattern[pattern.shape[0]-half:])
@@ -201,7 +200,12 @@ def standardizeAsh(pattern):
                 break
         if pivot!=0:
             break
-    if pivot<0:
+    return pivot<0
+
+# Standardize chirality of ash pattern
+def standardizeAsh(pattern):
+    out=copy.deepcopy(pattern)
+    if nonStdChi(pattern):
         out=np.flipud(out)
     return out
 
@@ -531,16 +535,23 @@ class PatternGrid:
             if (dispFrontLeft-2*parvo.y-parvo.x <= (19 if parvo.leftHanded else 12)-parvo.phase%2) and (dispFrontRight-2*parvo.y+parvo.x <= (12 if parvo.leftHanded else 19)-parvo.phase%2):
                 parvosNew.append(parvo)
         out.parvos=parvosNew
-        if len(parvosNew)>0 and parvosNew[-1].leftHanded:
+
+        expandedGrid=copy.deepcopy(out)
+        for parvo in out.parvos:
+            expandedGrid.fit(parvo.left(),parvo.top())
+            expandedGrid.fit(parvo.right()-1,parvo.bottom()-1)
+        expandedGrid=PatternGrid(expandedGrid.array,expandedGrid.parvos,expandedGrid.xStart,expandedGrid.yStart)
+        for y in range(out.yStart+2,out.yEnd()-2):
+            for x in range(out.xStart+2,out.xEnd()-2):
+                expandedGrid[x,y]=out[x,y]
+
+        if nonStdChi(expandedGrid.array):
             for i in range(len(parvosNew)):
                 out.parvos[i].x=-out.parvos[i].x
                 out.parvos[i].leftHanded=not out.parvos[i].leftHanded
-            for y in range(len(out.array[0])):
-                for x in range(len(out.array)//2):
-                    temp=out.array[x][y]
-                    out.array[x][y]=out.array[len(out.array)-1-x][y]
-                    out.array[len(out.array)-1-x][y]=temp
+            out.array=np.flipud(out.array)
             out.xStart=1-out.xEnd()
+
         deltaX=-2-out.xStart
         deltaY=-2-out.yStart
         for i in range(len(parvosNew)):
@@ -1170,8 +1181,8 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 i -= 1
                             bottomsSequence = []
                             for slice in range(4):
-                                bottom = endBottom
-                                for iParvo in range(len(bottomsSequenceParvos) - 1, i, -1):
+                                bottom = bottomsSequenceParvos[-1].bottom()
+                                for iParvo in range(len(bottomsSequenceParvos) - 2, i, -1):
                                     tentativeBottom = bottomsSequenceParvos[iParvo].bottom()
                                     if tentativeBottom > bottom:
                                         bottom = tentativeBottom
@@ -1261,6 +1272,7 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                     head = parvo.leadingEdge()
                                     if testGrid.xStart < head[0] and head[0] < testGrid.xEnd() - 1 and testGrid.yStart < head[1] and head[1] < testGrid.yEnd() - 1 and testGrid[head] != 1:
                                         newUnstableFlotillas.append(Flotilla(flotilla.startAsh, flotilla.startShadow, copy.deepcopy(testParvos), searchGen, testGen, flotilla.parent))
+                                        tails.add(tailHash)
                                         verified = True
                                         break
                                 if verified:
@@ -1272,6 +1284,8 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 for iRecord in range(-1, mostRecentSeparation, -1):
                                     # Test if scan has found match to puff of current generation
                                     if currentPuff.strictlyEquals(puffRecords[iRecord]):
+                                        # Add new tail to tails
+                                        tails.add(tailHash)
                                         # If testGrid diverges, add new flotilla and product ash to newFlotillas
                                         if diverges:
                                             # jRecord scans from the start of puffRecords onwards to find the earliest occurrence of the stable ash
@@ -1281,8 +1295,6 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                             # Add new flotilla to newFlotillas
                                             newFlotilla = Flotilla(flotilla.startAsh, flotilla.startShadow, copy.deepcopy(testParvos), searchGen, searchGen + jRecord, flotilla.parent)
                                             newFlotillas.append(newFlotilla)
-                                            # Add new tail to tails
-                                            tails.add(tailHash)
                                             # If product ash matches result ash pattern: add reaction to result ash output file
                                             for iResult in range(len(resultAshes)):
                                                 if resultAshPeriods[iResult] == -iRecord:
@@ -1318,11 +1330,11 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                     sOCount += 1
                                     break
                                 puffRecords.append(currentPuff)
-                                # If puff in testGrid dies and testGrid diverges, add new flotilla to newFlotillas, new tail to tails
+                                # If puff in testGrid dies add new tail to tails. If, in addition, testGrid diverges, add new flotilla to newFlotillas
                                 if not testGrid.advance():
+                                    tails.add(tailHash)
                                     if diverges:
                                         newFlotilla = Flotilla(flotilla.startAsh, flotilla.startShadow, copy.deepcopy(testParvos), searchGen, testGen + 1, flotilla.parent)
-                                        tails.add(tailHash)
                                         # If searching for deleter reaction, add reaction to result ash output file
                                         if deleterSearch:
                                             rAOFile.write(f"Desired ash producing reaction #{parvoCount}-{rAOID}:\n{reactionHistory(newFlotilla)}\n\n")
@@ -1420,8 +1432,8 @@ def search(startAshInput, spaceshipOutput, **kwargs):
                                 i -= 1
                             bottomsSequence = []
                             for slice in range(4):
-                                bottom = endBottom
-                                for iParvo in range(len(bottomsSequenceParvos) - 1, i, -1):
+                                bottom = bottomsSequenceParvos[-1].bottom()
+                                for iParvo in range(len(bottomsSequenceParvos) - 2, i, -1):
                                     tentativeBottom = bottomsSequenceParvos[iParvo].bottom()
                                     if tentativeBottom > bottom:
                                         bottom = tentativeBottom
